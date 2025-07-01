@@ -2,17 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-// import { useRouter } from 'next/router'; // Use this hook for Pages Router
-import { Menu, X, Code2 } from 'lucide-react';
-
+import { Menu, X } from 'lucide-react';
 import { navItems } from './config'
 import { UserNav } from './UserNav';
 import Image from 'next/image';
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const { pathname } = useRouter(); // Get the current path
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
