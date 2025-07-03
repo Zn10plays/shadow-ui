@@ -1,26 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cookies } from "next/headers";
-import {anamousUser, User} from '../../utils/user';
-
-function validateJWT(jwt: string | undefined): User {
-    // Placeholder for JWT validation logic
-    if (!jwt) {
-        return anamousUser
-    }
-
-    if (+jwt % 2 === 0) {
-        return {
-            id: "123",
-            username: "john_doe",
-            password: "hashed_password",
-            is_authenticated: true,
-            is_admin: false,
-        }
-    }
-
-    return anamousUser
-}
+import {User, validateJWT} from '../../utils/user';
 
 interface NavbarProps {
 }   
