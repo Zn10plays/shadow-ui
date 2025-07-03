@@ -33,7 +33,7 @@ export async function Navbar({}: NavbarProps) {
     const user: User = validateJWT(userCookie?.value);
 
     return (
-        <nav className="bg-gray-900 p-4">
+        <nav className="bg-gray-900 p-4 flex-none">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <Image src='/icon_primary.jpg' alt='Logo' width={40} height={40} className="rounded-full"/>
