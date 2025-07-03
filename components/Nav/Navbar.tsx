@@ -24,9 +24,9 @@ export async function Navbar({}: NavbarProps) {
                 </div>
                 <div className="items-center">
                     {user.is_authenticated ? (
-                        <div className="text-white">
+                        <Link href='/login' className="text-white">
                             <Image src='/icon_secondary.jpg' alt="User Icon" height={35} width={35} className="rounded-full"/>
-                        </div>
+                        </Link>
                     ) : (
                         <Link href="/login">
                             <Image src='/user_icon.svg' alt="User Icon" height={35} width={35} />
