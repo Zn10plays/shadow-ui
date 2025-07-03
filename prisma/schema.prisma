@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bibleinfo {
+  id             Int     @id @default(autoincrement())
+  name           String  @db.VarChar(255)
+  raw_name       String  @db.VarChar(255)
+  description    String  @db.Text
+  novel_id       Int
+  classification String? @db.VarChar(50)
+  novel          novel   @relation(fields: [novel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bibleinfo_ibfk_1")
+
+  @@index([novel_id], map: "bibleinfo_novel_id")
+}
+
+model bookmarks {
+  chapter_id      Int
+  novel_id        Int
+  position        Int
+  content         String?  @db.Text
+  bookmark_filled Boolean
+  user_id         Int
+  created_at      DateTime @db.DateTime(0)
+  chapter         chapter  @relation(fields: [chapter_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bookmarks_ibfk_1")
+  novel           novel    @relation(fields: [novel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bookmarks_ibfk_2")
+  user            user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bookmarks_ibfk_3")
+
+  @@id([chapter_id, user_id])
+  @@unique([chapter_id, user_id, position], map: "bookmarks_chapter_id_user_id_position")
+  @@index([chapter_id], map: "bookmarks_chapter_id")
+  @@index([novel_id], map: "bookmarks_novel_id")
+  @@index([user_id], map: "bookmarks_user_id")
+}
+
+model bookshelf {
+  novel_id Int
+  user_id  Int
+  novel    novel @relation(fields: [novel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bookshelf_ibfk_1")
+  user     user  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "bookshelf_ibfk_2")
+
+  @@id([novel_id, user_id])
+  @@unique([novel_id, user_id], map: "bookshelf_novel_id_user_id")
+  @@index([novel_id], map: "bookshelf_novel_id")
+  @@index([user_id], map: "bookshelf_user_id")
+}
+
+model chapter {
+  id                     Int            @id @default(autoincrement())
+  novel_id               Int
+  content                String         @db.Text
+  accessed_at            DateTime       @db.DateTime(0)
+  title                  String         @db.VarChar(500)
+  url                    String         @db.VarChar(500)
+  chapter_number         Int
+  is_filled              Boolean
+  is_translated          Boolean
+  translated_content     String?        @db.Text
+  translated_title       String?        @db.VarChar(255)
+  summary                String?        @db.Text
+  notes_for_next_chapter String?        @db.Text
+  bookmarks              bookmarks[]
+  novel                  novel          @relation(fields: [novel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chapter_ibfk_1")
+  chaptersread           chaptersread[]
+
+  @@unique([novel_id, chapter_number], map: "chapter_novel_id_chapter_number")
+  @@index([novel_id], map: "chapter_novel_id")
+}
+
+model chaptersread {
+  chapter_id Int
+  user_id    Int
+  read_at    DateTime @db.DateTime(0)
+  chapter    chapter  @relation(fields: [chapter_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chaptersread_ibfk_1")
+  user       user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chaptersread_ibfk_2")
+
+  @@id([chapter_id, user_id])
+  @@index([chapter_id], map: "chaptersread_chapter_id")
+  @@index([user_id], map: "chaptersread_user_id")
+}
+
+model logs {
+  id           Int      @id @default(autoincrement())
+  service      String   @db.VarChar(255)
+  message      String   @db.Text
+  message_type String   @db.VarChar(50)
+  time         DateTime @db.DateTime(0)
+  instance_id  String?  @db.VarChar(255)
+}
+
+model novel {
+  id           Int         @id @default(autoincrement())
+  title        String      @db.VarChar(500)
+  url          String      @unique(map: "novel_url") @db.VarChar(500)
+  last_updated DateTime    @db.DateTime(0)
+  bibleinfo    bibleinfo[]
+  bookmarks    bookmarks[]
+  bookshelf    bookshelf[]
+  chapter      chapter[]
+}
+
+model user {
+  id           Int            @id @default(autoincrement())
+  username     String         @unique(map: "user_username") @db.VarChar(255)
+  password     String         @db.VarChar(255)
+  created_at   DateTime       @db.DateTime(0)
+  bookmarks    bookmarks[]
+  bookshelf    bookshelf[]
+  chaptersread chaptersread[]
+}
