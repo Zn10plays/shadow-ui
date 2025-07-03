@@ -22,14 +22,14 @@ export async function Navbar({}: NavbarProps) {
                         <div className="text-white text-lg font-semibold">Shadow</div>
                     </Link>
                 </div>
-                <div>
+                <div className="items-center">
                     {user.is_authenticated ? (
                         <div className="text-white">
-                            <Image src='/icon_secondary.jpg' alt="User Icon" height={30} width={30} />
+                            <Image src='/icon_secondary.jpg' alt="User Icon" height={35} width={35} className="rounded-full"/>
                         </div>
                     ) : (
                         <Link href="/login">
-                            <Image src='/user_icon.svg' alt="User Icon" height={30} width={30} />
+                            <Image src='/user_icon.svg' alt="User Icon" height={35} width={35} />
                         </Link>
                     )}
                 </div>
