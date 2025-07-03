@@ -9,7 +9,7 @@ interface NavbarProps {
 export async function Navbar({}: NavbarProps) {
     const cookieStore = await cookies();
 
-    const userCookie = cookieStore.get("JWT");
+    const userCookie = cookieStore.get("jwt");
 
     const user: User = validateJWT(userCookie?.value);
 
