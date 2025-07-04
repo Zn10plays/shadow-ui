@@ -87,3 +87,12 @@ async function getReleventTermsByChapterId(chapterId: number) {
 
     return matches;
 }
+
+export {
+    listBookshelfNovelsByUserId,
+    listNovelsByLibrary,
+    getNovelById,
+    listChaptersByNovelId,
+    getChapterById,
+    getReleventTermsByChapterId
+}
