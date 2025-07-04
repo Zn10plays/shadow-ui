@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+
 interface User {
     id: string;
     username: string;
@@ -34,6 +36,14 @@ function validateJWT(jwt: string | undefined): User {
     return anamousUser
 }
 
+async function getUser(): Promise<User> {
+    // Placeholder for user retrieval logic
+    const cookieStore = await cookies();
+    const jwt = cookieStore.get('jwt')?.value;
+
+    const user = validateJWT(jwt);
+    return user;
+}
 
 export type { User };
-export { anamousUser, validateJWT };
+export { anamousUser, getUser };

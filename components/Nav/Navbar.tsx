@@ -1,17 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { cookies } from "next/headers";
-import {User, validateJWT} from '../../utils/user';
+import {getUser} from '../../utils/user';
 
 interface NavbarProps {
 }   
 
 export async function Navbar({}: NavbarProps) {
-    const cookieStore = await cookies();
-
-    const userCookie = cookieStore.get("jwt");
-
-    const user: User = validateJWT(userCookie?.value);
+    const user = await getUser()
 
     return (
         <nav className="bg-gray-900 p-4 flex-none">

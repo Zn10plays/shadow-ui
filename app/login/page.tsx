@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Form from 'next/form'
 import { cookies } from "next/headers";
 import LoginFormCard from "./logincard";
-import { validateJWT } from "@/utils/user";
+import { getUser } from "@/utils/user";
 import AccountCard from "./accountcard";
 
 async function handleLogin(formData: FormData) {
@@ -26,9 +26,7 @@ interface loginProps {
 }
 
 export default async function Login({}: loginProps) {
-    const cookieStore = await cookies()
-
-    const user = validateJWT(cookieStore.get('jwt')?.value)
+    const user = await getUser()
 
     return (
         <div className="flex-1 grid grid-cols-1 place-content-center">

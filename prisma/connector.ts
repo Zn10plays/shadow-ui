@@ -88,9 +88,20 @@ async function getReleventTermsByChapterId(chapterId: number) {
     return matches;
 }
 
+async function isNovelInBookshelf(novelId: number, userId: number) : Promise<boolean> {
+    const result = await prisma.bookshelf.findFirst({
+        where: {
+            novel_id: novelId,
+            user_id: userId,
+        },
+    });
+    return result !== null;
+}
+
 export {
     listBookshelfNovelsByUserId,
     listNovelsByLibrary,
+    isNovelInBookshelf,
     getNovelById,
     listChaptersByNovelId,
     getChapterById,
