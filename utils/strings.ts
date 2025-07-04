@@ -10,7 +10,7 @@ function formatTitle(title: string, removeKorean: boolean=true): string {
 
   if (removeKorean) {
     // Remove Korean characters from the title
-    title = title.replace(/[\u3131-\uD79D]/g, '').trim();
+    title = title.replace(/[\u3131-\uD79D]/g, '').trim().replace('|', '');
   }
 
   const titleParts = title.split(' ');
