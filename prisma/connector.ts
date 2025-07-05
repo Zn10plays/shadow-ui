@@ -1,3 +1,4 @@
+import { chapter } from "@/app/generated/prisma";
 import prisma from "./global";
 
 async function listBookshelfNovelsByUserId(userId: number, page: number = 1, pageSize: number = 10) {
@@ -98,6 +99,43 @@ async function isNovelInBookshelf(novelId: number, userId: number) : Promise<boo
     return result !== null;
 }
 
+async function getChaptersByNovelId(novelId: number, page: number = 1, pageSize: number = 100, asending: boolean = false): Promise<chapter[]> {
+    return prisma.chapter.findMany({
+        where: { novel: { id: novelId } },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        orderBy: {
+            chapter_number: asending ? 'asc' : 'desc',
+        },
+    });
+}
+
+async function getTotalChaptersByNovelId(novelId: number): Promise<number> {
+    const chapters = await prisma.chapter.count({
+        where: { novel: { id: novelId } },
+    });
+    return chapters;
+}
+
+async function getTotalChaptersFilledByNovelId(novelId: number): Promise<number> {
+    return prisma.chapter.count({
+        where: {
+            novel: { id: novelId },
+            is_filled: true,
+        }
+    });
+}
+
+async function getTotalTranslatedChaptersByNovelId(novelId: number): Promise<number> {
+    const chapters = await prisma.chapter.count({
+        where: {
+            novel: { id: novelId },
+            is_translated: true,
+        },
+    });
+    return chapters;
+}
+
 export {
     listBookshelfNovelsByUserId,
     listNovelsByLibrary,
@@ -105,5 +143,9 @@ export {
     getNovelById,
     listChaptersByNovelId,
     getChapterById,
-    getReleventTermsByChapterId
+    getReleventTermsByChapterId,
+    getChaptersByNovelId,
+    getTotalChaptersByNovelId,
+    getTotalChaptersFilledByNovelId,
+    getTotalTranslatedChaptersByNovelId,
 }
