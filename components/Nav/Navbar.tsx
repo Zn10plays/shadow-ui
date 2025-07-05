@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import {getUser} from '../../utils/user';
+import { UserRound } from "lucide-react";
 
 interface NavbarProps {
 }   
@@ -24,7 +25,7 @@ export async function Navbar({}: NavbarProps) {
                         </Link>
                     ) : (
                         <Link href="/login">
-                            <Image src='/user_icon.svg' alt="User Icon" height={35} width={35} />
+                            <UserRound />
                         </Link>
                     )}
                 </div>
