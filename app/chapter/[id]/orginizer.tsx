@@ -60,10 +60,10 @@ export default function Organizer({ chapter, bibleInfo }: OrginizerProps) {
 
     return (
         <div className="p-4 prose lg:prose-xl">
-            <h1 className="text-lg">{chapter.translated_title || chapter.title}</h1>
+            <h1 className="text-xl">{chapter.translated_title || chapter.title}</h1>
             <hr className="my-1" />
             {/* The pre-wrap style preserves whitespace and newlines like in the original text */}
-            <p style={{ whiteSpace: 'pre-wrap' }}>
+            <p style={{ whiteSpace: 'pre-wrap' }} className="text-lg">
                 {processedContent}
             </p>
         </div>

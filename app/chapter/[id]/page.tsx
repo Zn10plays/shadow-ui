@@ -25,7 +25,7 @@ export default async function ChapterDispay({
   ])
 
   return <div>
-    <br className="my-1" />
+    <div className="md:m-1" />
     <div className="container mx-auto bg-slate-900">
     <ChaptersnavBar chapter={chapter} nextChapterId={nextChapter} previousChapterId={previousChapter}/>
     {/* warning */}
