@@ -1,5 +1,6 @@
 import { chapter } from "@/app/generated/prisma";
 import prisma from "./global";
+import { getUser } from "@/utils/user";
 
 async function listBookshelfNovelsByUserId(userId: number, page: number = 1, pageSize: number = 10) {
     const bookshelf = await prisma.bookshelf.findMany({
@@ -190,6 +191,32 @@ async function getTotalTranslatedChaptersByNovelId(novelId: number): Promise<num
     return chapters;
 }
 
+async function getFirstChapterIdByNovelId(novelId: number): Promise<number> {
+    const chapter =  await prisma.chapter.findFirst({
+        where: { novel: { id: novelId } },
+        orderBy: { chapter_number: 'asc' },
+    });
+
+    return chapter ? chapter.id : -1;
+}
+
+async function getNextChapterByNovelIdAndUserId(novelId: number): Promise<number> {
+    const user = await getUser()
+
+    if (!user.is_authenticated)
+        return getFirstChapterIdByNovelId(novelId)
+    
+    const readChapters = await prisma.chaptersread.findFirst({
+        where: {
+            user_id: user.id,
+            chapter: { novel_id: novelId },
+        },
+        orderBy: { chapter: { chapter_number: 'asc' } },
+    })
+
+    return readChapters ? readChapters.chapter_id : -1;
+}
+
 export {
     listBookshelfNovelsByUserId,
     listNovelsByLibrary,
@@ -202,4 +229,6 @@ export {
     getTotalChaptersByNovelId,
     getTotalChaptersFilledByNovelId,
     getTotalTranslatedChaptersByNovelId,
+    getNextChapterByNovelIdAndUserId,
+    getFirstChapterIdByNovelId
 }
