@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {getUser} from '../../utils/user';
+import {getUser} from '../utils/user';
 import { UserRound } from "lucide-react";
 
 interface NavbarProps {
