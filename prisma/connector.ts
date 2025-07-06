@@ -91,8 +91,6 @@ async function getReleventTermsByChapterId(chapterId: number) {
         }
     }
 
-    console.log("matches", matches);
-
     return matches;
 }
 
@@ -223,6 +221,20 @@ async function getNextChapterByNovelIdAndUserId(novelId: number): Promise<number
     return readChapters ? readChapters.chapter_id : getFirstChapterIdByNovelId(novelId);
 }
 
+async function getChapterIdByNumberAndNovelId(novelId: number, chapterNumber: number): Promise<number | null> {
+    return prisma.chapter.findFirst({
+        where: {
+            novel_id: novelId,
+            chapter_number: chapterNumber,
+        },
+        select: {
+            id: true,
+        },
+    }).then(chapter => {
+        return chapter ? chapter.id : null;
+    });
+}
+
 export {
     listBookshelfNovelsByUserId,
     listNovelsByLibrary,
@@ -236,5 +248,6 @@ export {
     getTotalChaptersFilledByNovelId,
     getTotalTranslatedChaptersByNovelId,
     getNextChapterByNovelIdAndUserId,
-    getFirstChapterIdByNovelId
+    getFirstChapterIdByNovelId,
+    getChapterIdByNumberAndNovelId
 }

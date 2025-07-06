@@ -1,5 +1,7 @@
-import { getChapterById } from "@/prisma/connector"
+import { getChapterById, getChapterIdByNumberAndNovelId, getReleventTermsByChapterId } from "@/prisma/connector"
 import { notFound } from "next/navigation"
+import Orginizer from "./orginizer"
+import ChaptersnavBar from "./ChaptersNavBar"
 
 interface ChapterDispayProps {
   params: Promise<{id: string}> 
@@ -10,23 +12,36 @@ export default async function ChapterDispay({
 }: ChapterDispayProps) {
   const id = parseInt((await params).id)
 
-  const chapter = await getChapterById(id)
+  const [chapter, releventTerms ] = await Promise.all([getChapterById(id), getReleventTermsByChapterId(id)])
 
   if (!chapter) {
     notFound()
   }
 
-  return <div className="max-w-[50rem] mx-auto">
-    <p className={'text-sm text-slate-600 '+ (chapter.is_translated ? 'hidden' : '')}> Chapter is not translated, however you are able to read the raw </p>
-    <h1 className="text-xl"> 
-      {chapter.is_translated ? chapter.translated_title : chapter.title}
-    </h1>
-    <div>
-      {(chapter.is_translated ? chapter.translated_content : chapter.content)?.split('\n').map((row, index) => (
-        <p key={index}>
-          {row}
-        </p>
-      ))}
-    </div>
+
+  const [previousChapter, nextChapter] = await Promise.all([
+    getChapterIdByNumberAndNovelId(chapter.novel_id, chapter.chapter_number - 1),
+    getChapterIdByNumberAndNovelId(chapter.novel_id, chapter.chapter_number + 1)
+  ])
+
+  return <div>
+    <br className="my-1" />
+    <div className="container mx-auto bg-slate-900">
+    <ChaptersnavBar chapter={chapter} nextChapterId={nextChapter} previousChapterId={previousChapter}/>
+    {/* warning */}
+    {
+      !chapter.is_translated && (
+        <div className="text-xl p-4">
+          <span className="text-yellow-500"> Warning </span>
+          <br />
+          This chapter is not translated, however you can read the raw.
+          <br />
+          <span className="text-sm"> In order to request translation please login </span>
+        </div>
+      )
+    }
+    <Orginizer bibleInfo={releventTerms} chapter={chapter}/>
+    <ChaptersnavBar chapter={chapter} nextChapterId={nextChapter} previousChapterId={previousChapter}/>
+  </div>
   </div>
 }
