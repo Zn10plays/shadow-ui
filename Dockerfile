@@ -17,4 +17,4 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 # Start the application
-CMD ["npm", "start"]
+CMD ['npx', 'next', 'start', '-p', '3000', '--hostname', '0.0.0.0']
