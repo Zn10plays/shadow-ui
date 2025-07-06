@@ -9,6 +9,7 @@ COPY . /app
 RUN npm run db generate
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 80
+
 # Start the application
 CMD ["npx", "next", "start", "-H", "invadev.net", "-p", "80"]
