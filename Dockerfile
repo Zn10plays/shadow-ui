@@ -8,6 +8,9 @@ COPY . /app
 # Install dependencies
 RUN npm install
 
+# Init prisma generators
+RUN npm run db generate
+
 # Build the application
 RUN npm run build
 

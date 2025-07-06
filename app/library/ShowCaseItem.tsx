@@ -18,7 +18,7 @@ export default async function ShowCaseItem({novel}: ShowCaseItemProps) {
   if (!user.is_authenticated) {
     is_bookshelfed = false
   } else {
-    is_bookshelfed = await isNovelInBookshelf(novel.id, parseInt(user.id))
+    is_bookshelfed = await isNovelInBookshelf(novel.id, user.id)
   }
 
   return <div className="w-full">
