@@ -1,13 +1,8 @@
 import { listNovelsByLibrary } from "@/prisma/connector"
 import ShowCaseItem from "./ShowCaseItem"
 
-interface ShowcaseGridProps {
-
-}
-
-export default async function ShowcaseGrid(props: ShowcaseGridProps) {
+export default async function ShowcaseGrid() {
     const novels = await listNovelsByLibrary()
-
     return <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {novels ? (
             novels.map(novel => <ShowCaseItem novel={novel} key={novel.id}/>)) 
@@ -16,3 +11,13 @@ export default async function ShowcaseGrid(props: ShowcaseGridProps) {
         )}
     </div>
 }
+
+
+// disable lint no-empty-object-type
+export const metadata = {
+    title: "Shadow UI",
+    description: "A user interface for Shadow",
+    icons: {
+        icon: "/icon_primary.jpg",
+    }
+};

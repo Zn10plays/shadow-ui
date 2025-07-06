@@ -1,11 +1,7 @@
 import { Metadata } from "next";
 import ShowcaseGrid from "./ShowCaseGrid";
 
-interface LibraryProps {
-
-}
-
-export default function Library (props: LibraryProps) {
+export default function Library () {
   return <div className="p-1 md:p-5"> 
     <h1 className="text-2xl"> Library </h1>
     <span className="text-sm"> Read all books you want, new ones can be added anytime </span>

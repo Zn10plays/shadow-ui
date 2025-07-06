@@ -15,7 +15,7 @@ interface NovelInfoPageProps {
 }
 
 export default async function NovelInfoPage({params, searchParams}: NovelInfoPageProps) {
-  let {id} = await params
+  const {id} = await params
   // parce to int
   const novelId = parseInt(id)
   

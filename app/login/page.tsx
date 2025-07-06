@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Form from 'next/form'
 import { cookies } from "next/headers";
 import LoginFormCard from "./logincard";
 import { getUser } from "@/utils/user";
@@ -22,10 +21,7 @@ async function handleLogin(formData: FormData) {
     }
 }
 
-interface loginProps {
-}
-
-export default async function Login({}: loginProps) {
+export default async function Login() {
     const user = await getUser()
 
     return (

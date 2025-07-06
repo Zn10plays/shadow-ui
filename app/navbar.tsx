@@ -3,10 +3,7 @@ import Image from "next/image";
 import {getUser} from '../utils/user';
 import { UserRound } from "lucide-react";
 
-interface NavbarProps {
-}   
-
-export async function Navbar({}: NavbarProps) {
+export async function Navbar() {
     const user = await getUser()
 
     return (

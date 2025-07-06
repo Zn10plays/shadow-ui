@@ -67,7 +67,7 @@ const LoginFormCard = ({action}: LoginCardProps) => {
       {/* Footer */}
       <div className="text-center mt-6">
         <p className="text-sm text-gray-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <a href="#" className="font-medium text-blue-400 hover:text-blue-300 hover:underline">
             Sign Up
           </a>

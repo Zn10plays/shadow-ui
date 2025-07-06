@@ -9,7 +9,7 @@ interface ChapterListControlsProps {
 export default async function ChapterListControls ({totalChapters, currentPage}: ChapterListControlsProps) {
     const totalPages = Math.ceil(totalChapters / 100)
 
-    let tab_names = [];
+    const tab_names = [];
 
     if (totalPages <= 7) {
         for (let i = 1; i <= totalPages; i++) {

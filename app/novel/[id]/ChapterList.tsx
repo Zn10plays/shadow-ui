@@ -11,14 +11,6 @@ interface ChapterListProps {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-const chapters = Array.from({ length: 100 }, (_, i) => ({
-	id: i + 1,
-	chapterNumber: 520 + i, // Example: starting from chapter 520
-	title: `The Shadow's Advance`,
-	isRead: i < 15, // Mark the first 15 chapters on this page as read
-	isBookmarked: i === 25, // Bookmark chapter 545 (index 25)
-}));
-
 export default async function ChapterList({totalChapters, searchParams, novel}: ChapterListProps) {
 	const queryParams = await searchParams
 	const user = await getUser()
