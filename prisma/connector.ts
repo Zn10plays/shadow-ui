@@ -49,8 +49,12 @@ async function getReleventTermsByChapterId(chapterId: number) {
         where: { id: chapterId },
     });
 
+    if (!chapter) {
+        return []; // Return empty array if chapter not found
+    }
+
     const character_bibles = await prisma.bibleinfo.findMany({
-        where: { novel: { id: chapterId } },
+        where: { novel: { id: chapter.novel_id } },
     });
 
     const matches = [];
@@ -59,7 +63,7 @@ async function getReleventTermsByChapterId(chapterId: number) {
     // check for exact matches
 
     for (const bible of character_bibles) {
-        if (chapter?.content.includes(bible?.name)) {
+        if (chapter?.translated_content?.includes(bible?.name)) {
             matches.push(bible);
         } else {
             unmateched.push(bible);
@@ -86,6 +90,8 @@ async function getReleventTermsByChapterId(chapterId: number) {
             matches.push(bible);
         }
     }
+
+    console.log("matches", matches);
 
     return matches;
 }
