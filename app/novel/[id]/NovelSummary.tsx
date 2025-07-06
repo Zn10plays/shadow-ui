@@ -1,6 +1,7 @@
 import { novel } from "@/app/generated/prisma";
 import Image from "next/image";
 import { formatTitle } from "@/utils/strings";
+import SummaryShortcuts from "./SummaryShortCuts";
 
 interface NovelSummaryProps {
   novel: novel
@@ -63,12 +64,6 @@ export default function NovelSummary({novel, totalChapters, totalFilled, transla
           </div>
         </div>
       </div>      
-      <div className="my-2">
-        <span className="flex">
-        <button type="button" className="flex-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Read First</button>
-        <span className="mx-1" />
-        <button type="button" className="flex-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Read Next</button>
-        </span>
-      </div>
+      <SummaryShortcuts novelId={novel.id}/>
     </div>
 }
