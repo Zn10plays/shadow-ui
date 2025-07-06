@@ -214,7 +214,7 @@ async function getNextChapterByNovelIdAndUserId(novelId: number): Promise<number
         orderBy: { chapter: { chapter_number: 'asc' } },
     })
 
-    return readChapters ? readChapters.chapter_id : -1;
+    return readChapters ? readChapters.chapter_id : getFirstChapterIdByNovelId(novelId);
 }
 
 export {
