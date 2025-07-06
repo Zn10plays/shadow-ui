@@ -4,17 +4,18 @@ import {
   getTotalChaptersFilledByNovelId, 
   getTotalTranslatedChaptersByNovelId 
 } from "@/prisma/connector"
-import { formatTitle } from "@/utils/strings"
 import { Metadata } from "next"
-import Image from "next/image"
 import NovelSummary from "./NovelSummary"
+import ChapterList from "./ChapterList"
+import { notFound } from "next/navigation"
 
 interface NovelInfoPageProps {
-  params: Promise<{id: string}>
+  params: Promise<{id: string}> // this for the /novel/id
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }> // this for the ?page=1...
 }
 
-export default async function NovelInfoPage(props: NovelInfoPageProps) {
-  let {id} = await props.params
+export default async function NovelInfoPage({params, searchParams}: NovelInfoPageProps) {
+  let {id} = await params
   // parce to int
   const novelId = parseInt(id)
   
@@ -22,7 +23,7 @@ export default async function NovelInfoPage(props: NovelInfoPageProps) {
   const novel = await getNovelById(novelId)
 
   if (!novel) {
-    return <> Novel Does Not Exist </>
+    notFound()
   }
 
   // Start all three fetches *without* awaiting immediately
@@ -43,7 +44,7 @@ export default async function NovelInfoPage(props: NovelInfoPageProps) {
 
     {/* chapter list */}
     <div>
-
+      <ChapterList novel={novel} totalChapters={totalChapters} searchParams={searchParams}/>
     </div>
   </div>
 }

@@ -99,15 +99,69 @@ async function isNovelInBookshelf(novelId: number, userId: number) : Promise<boo
     return result !== null;
 }
 
-async function getChaptersByNovelId(novelId: number, page: number = 1, pageSize: number = 100, asending: boolean = false): Promise<chapter[]> {
-    return prisma.chapter.findMany({
-        where: { novel: { id: novelId } },
+async function getChaptersByNovelId(novelId: number, page: number = 1, pageSize: number = 100, userId: number, asending: boolean = false){
+    // 1. Determine if we have a valid, logged-in user.
+    // This flag will control whether we add the user-specific queries.
+    const isUserLoggedIn = userId != null && userId > 0;
+
+    const chaptersWithUserData = await prisma.chapter.findMany({
+        where: {
+            novel: { id: novelId },
+        },
+        // We conditionally include the _count block only if the user is logged in.
+        // If isUserLoggedIn is false, the spread operator does nothing.
+        // This is a clean way to build dynamic queries in Prisma.
+        select: {
+            // Select all the chapter fields you need
+            id: true,
+            title: true,
+            chapter_number: true,
+            // ... any other fields from the Chapter model
+
+            // Conditionally add the _count for bookmarks and read status
+            ...(isUserLoggedIn && {
+                _count: {
+                    select: {
+                        // Count bookmarks for this chapter by this user
+                        bookmarks: {
+                            where: {
+                                user: { id: userId! }, // The ! tells TS we know userId is not null here
+                            },
+                        },
+                        // Count read status for this chapter by this user
+                        chaptersread: {
+                            where: {
+                                user_id: userId!, // Based on your schema
+                            },
+                        },
+                    },
+                },
+            }),
+        },
         skip: (page - 1) * pageSize,
         take: pageSize,
         orderBy: {
             chapter_number: asending ? 'asc' : 'desc',
         },
     });
+
+    // 2. Map the results to the final desired format
+    const chapters = chaptersWithUserData.map(chapter => {
+        // Use default value destructuring for _count.
+        // If the user wasn't logged in, `_count` won't exist on the chapter object.
+        // This provides a safe fallback, preventing errors.
+        const { _count = { bookmarks: 0, chaptersread: 0 }, ...chapterData } = chapter;
+
+        return {
+            ...chapterData,
+            // Create the boolean fields based on the counts.
+            // If the user was logged out, counts will be 0, so these will correctly be false.
+            bookmarked: _count.bookmarks > 0,
+            isRead: _count.chaptersread > 0,
+        };
+    });
+
+    return chapters;
 }
 
 async function getTotalChaptersByNovelId(novelId: number): Promise<number> {

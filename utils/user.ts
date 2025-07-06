@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 interface User {
-    id: string;
+    id: number;
     username: string;
     password: string;
     is_authenticated: boolean;
@@ -9,7 +9,7 @@ interface User {
 }
 
 const anamousUser: User = {
-    id: "",
+    id: -1,
     username: "",
     password: "",
     is_authenticated: false,
@@ -25,7 +25,7 @@ function validateJWT(jwt: string | undefined): User {
 
     if (+jwt % 2 === 0) {
         return {
-            id: "123",
+            id: 123,
             username: "john_doe",
             password: "hashed_password",
             is_authenticated: true,
