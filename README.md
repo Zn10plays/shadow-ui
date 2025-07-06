@@ -9,7 +9,7 @@ npm i
 npm db generate 
 npm run build 
 
-npx start --hostname=0.0.0.0 -p=80 # or whatever you need 
+npx next start --hostname 0.0.0.0 -p 80 # or whatever you need 
 ```
 
 ### Tmux cheetsheet 
@@ -17,7 +17,7 @@ npx start --hostname=0.0.0.0 -p=80 # or whatever you need
 tmux new -s shadow
 
 # to attach 
-tmux a -t shaodw
+tmux a -t shadow
 
 # to kill 
 tmux kill-session -t shadow
