@@ -34,7 +34,7 @@ export default function Home() {
               <div className="bg-gray-800 rounded-lg overflow-hidden group">
                 <Image src="/cover.png" alt="Necromancer Academy's Genius Summoner" className="w-full object-cover group-hover:opacity-80 transition" height={450} width={133}/>
                 <div className="p-4">
-                  <h4 className="font-bold text-lg">Necromancer Academy's Genius Summoner</h4>
+                  <h4 className="font-bold text-lg">Necromancer Academy&apos;s Genius Summoner</h4>
                   <p className="text-sm text-gray-400">1465 Chapters</p>
                 </div>
               </div>
@@ -45,7 +45,7 @@ export default function Home() {
 
         {/* Features Section */}
         <section id="features" className="py-16">
-          <h3 className="text-3xl font-bold mb-12">Why You'll Love Shadow</h3>
+          <h3 className="text-3xl font-bold mb-12">Why You&apos;ll Love Shadow</h3>
           <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
             <div className="flex flex-col items-center">
               <div className="bg-purple-600/20 p-4 rounded-full mb-4">
