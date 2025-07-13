@@ -25,18 +25,20 @@ export default function Home() {
 
         {/* Featured Novel Section */}
         <section className="mb-16">
-          <h3 className="text-3xl font-bold mb-8">Popular on Shadow</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {/* Example Book Cover */}
-            <div className="bg-gray-800 rounded-lg overflow-hidden group">
-              <img src="/cover.png" alt="Necromancer Academy's Genius Summoner" className="w-full h-auto object-cover group-hover:opacity-80 transition" />
-              <div className="p-4">
-                <h4 className="font-bold text-lg">Necromancer Academy's Genius Summoner</h4>
-                <p className="text-sm text-gray-400">1465 Chapters</p>
+          <Link href={'/library'}>
+            <h3 className="text-3xl font-bold mb-8">Popular on Shadow</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {/* Example Book Cover */}
+              <div className="bg-gray-800 rounded-lg overflow-hidden group">
+                <img src="/cover.png" alt="Necromancer Academy's Genius Summoner" className="w-full h-auto object-cover group-hover:opacity-80 transition" />
+                <div className="p-4">
+                  <h4 className="font-bold text-lg">Necromancer Academy's Genius Summoner</h4>
+                  <p className="text-sm text-gray-400">1465 Chapters</p>
+                </div>
               </div>
+              {/* Add more featured books here */}
             </div>
-            {/* Add more featured books here */}
-          </div>
+          </Link>
         </section>
 
         {/* Features Section */}
