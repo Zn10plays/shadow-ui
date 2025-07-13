@@ -235,6 +235,47 @@ async function getChapterIdByNumberAndNovelId(novelId: number, chapterNumber: nu
     });
 }
 
+async function isChapterReadByUser(chapterId: number, userId: number): Promise<boolean> {
+    const readStatus = await prisma.chaptersread.findFirst({
+        where: {
+            chapter_id: chapterId,
+            user_id: userId,
+        },
+    });
+    return readStatus !== null;
+}
+
+async function markChapterAsRead(chapterId: number, userId: number) {
+    const user = await getUser();
+    if (!user.is_authenticated) {
+        throw new Error('User not authenticated');
+    }
+
+    // Logic to mark the chapter as read in the database
+    await prisma.chaptersread.create({
+        data: {
+            chapter_id: chapterId,
+            user_id: user.id, // Use the authenticated user's ID
+            read_at: new Date(), // Optional: store the timestamp of when it was read
+        },
+    });
+}
+
+async function markChapterAsUnRead(chapterId: number, userId: number) {
+    const user = await getUser();
+    if (!user.is_authenticated) {
+        throw new Error('User not authenticated');
+    }
+
+    // Logic to mark the chapter as unread in the database
+    await prisma.chaptersread.deleteMany({
+        where: {
+            chapter_id: chapterId,
+            user_id: user.id, // Use the authenticated user's ID
+        },
+    });
+}
+
 export {
     listBookshelfNovelsByUserId,
     listNovelsByLibrary,
@@ -249,5 +290,8 @@ export {
     getTotalTranslatedChaptersByNovelId,
     getNextChapterByNovelIdAndUserId,
     getFirstChapterIdByNovelId,
-    getChapterIdByNumberAndNovelId
+    getChapterIdByNumberAndNovelId,
+    isChapterReadByUser,
+    markChapterAsRead,
+    markChapterAsUnRead
 }

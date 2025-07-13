@@ -2,6 +2,9 @@ import { getChapterById, getChapterIdByNumberAndNovelId, getReleventTermsByChapt
 import { notFound } from "next/navigation"
 import Orginizer from "./orginizer"
 import ChaptersnavBar from "./ChaptersNavBar"
+import dynamic from 'next/dynamic'
+
+const DynamicTracker = dynamic(() => import('./Tracker'))
 
 interface ChapterDispayProps {
   params: Promise<{id: string}> 
@@ -41,6 +44,8 @@ export default async function ChapterDispay({
       )
     }
     <Orginizer bibleInfo={releventTerms} chapter={chapter}/>
+    {/* dynamically load tracker */}
+    <DynamicTracker nextChapterId={nextChapter} chapterId={chapter.id} />
     <ChaptersnavBar chapter={chapter} nextChapterId={nextChapter} previousChapterId={previousChapter}/>
   </div>
   </div>
