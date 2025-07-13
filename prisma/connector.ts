@@ -215,10 +215,24 @@ async function getNextChapterByNovelIdAndUserId(novelId: number): Promise<number
             user_id: user.id,
             chapter: { novel_id: novelId },
         },
-        orderBy: { chapter: { chapter_number: 'asc' } },
+        orderBy: { chapter: { chapter_number: 'desc' } },
+        include: {
+            chapter: {
+                select: {
+                    chapter_number: true,
+                },
+            },
+        }
     })
 
-    return readChapters ? readChapters.chapter_id : getFirstChapterIdByNovelId(novelId);
+    if (!readChapters) {
+        return getFirstChapterIdByNovelId(novelId);
+    }
+
+    const nextChapterNumber = readChapters.chapter.chapter_number + 1;
+    const nextChapter = await getChapterIdByNumberAndNovelId(novelId, nextChapterNumber)
+    
+    return nextChapter || getFirstChapterIdByNovelId(novelId);
 }
 
 async function getChapterIdByNumberAndNovelId(novelId: number, chapterNumber: number): Promise<number | null> {
