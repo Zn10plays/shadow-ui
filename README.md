@@ -57,9 +57,11 @@ npx next start --hostname 0.0.0.0 # or whatever you need
 To get ssl cert for the app
 ```bash
 sudo dnf install epel-release -y # get linux enterprise
+
 sudo dnf install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d invadev.net -d www.invadev.net 
 # assuming nginx is setup
+sudo systemctl list-timers | grep certbot # for auto renewal
 ```
 
 ### Tmux cheetsheet 
