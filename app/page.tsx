@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
+
 import { Book, Sparkles, Languages } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -30,7 +32,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {/* Example Book Cover */}
               <div className="bg-gray-800 rounded-lg overflow-hidden group">
-                <img src="/cover.png" alt="Necromancer Academy's Genius Summoner" className="w-full h-auto object-cover group-hover:opacity-80 transition" />
+                <Image src="/cover.png" alt="Necromancer Academy's Genius Summoner" className="w-full object-cover group-hover:opacity-80 transition" height={450} width={133}/>
                 <div className="p-4">
                   <h4 className="font-bold text-lg">Necromancer Academy's Genius Summoner</h4>
                   <p className="text-sm text-gray-400">1465 Chapters</p>
