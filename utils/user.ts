@@ -1,4 +1,6 @@
 import { cookies } from 'next/headers';
+import prisma from '@/prisma/global';
+import { encrypt, decrypt } from './encript';
 
 interface User {
     id: number;
@@ -16,24 +18,47 @@ const anamousUser: User = {
     is_admin: false,
 };
 
+function parseLoginData(username: string, password: string): string {
+    const data = { username, password };
+    return encrypt(JSON.stringify(data));
+}
 
-function validateJWT(jwt: string | undefined): User {
+function unpackJWT(jwt: string): {username: string, password: string} {
+    const decrypted = decrypt(jwt);
+    const data = JSON.parse(decrypted);
+    return {
+        username: data.username,
+        password: data.password
+    };
+}
+
+
+async function validateJWT(jwt: string | undefined): Promise<User> {
     // Placeholder for JWT validation logic
     if (!jwt) {
         return anamousUser
     }
 
-    if (+jwt % 2 === 0) {
-        return {
-            id: 123,
-            username: "john_doe",
-            password: "hashed_password",
-            is_authenticated: true,
-            is_admin: false,
+    const { username, password } = unpackJWT(jwt);
+
+    const userData = await prisma.user.findFirst({
+        where: {
+            username,
+            password
         }
+    })
+    
+    if (!userData) {
+        return anamousUser;
     }
 
-    return anamousUser
+    return {
+        id: userData.id,
+        username: userData.username,
+        password: userData.password,
+        is_authenticated: true,
+        is_admin: false
+    };
 }
 
 async function getUser(): Promise<User> {
@@ -46,4 +71,4 @@ async function getUser(): Promise<User> {
 }
 
 export type { User };
-export { anamousUser, getUser };
+export { anamousUser, getUser, parseLoginData };

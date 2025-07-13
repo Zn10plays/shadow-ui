@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import LoginFormCard from "./logincard";
-import { getUser } from "@/utils/user";
+import { getUser, parseLoginData } from "@/utils/user";
 import AccountCard from "./accountcard";
 
 async function handleLogin(formData: FormData) {
@@ -16,9 +16,9 @@ async function handleLogin(formData: FormData) {
         return
     }
 
-    if (username === 'rudra' && parseInt(password.toString()) % 2 == 0) {
-        cookieStore.set('jwt', '2')
-    }
+    const encryptedData = parseLoginData(username.toString(), password.toString());
+
+    cookieStore.set('jwt', encryptedData);
 }
 
 export default async function Login() {
