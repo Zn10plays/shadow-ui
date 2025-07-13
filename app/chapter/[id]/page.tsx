@@ -15,7 +15,8 @@ export default async function ChapterDispay({
 }: ChapterDispayProps) {
   const id = parseInt((await params).id)
 
-  const [chapter, releventTerms ] = await Promise.all([getChapterById(id), getReleventTermsByChapterId(id)])
+  // const [chapter, releventTerms ] = await Promise.all([getChapterById(id), getReleventTermsByChapterId(id)])
+  const [chapter, releventTerms ] = await Promise.all([getChapterById(id), []])
 
   if (!chapter) {
     notFound()
