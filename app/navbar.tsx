@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import {getUser} from '../utils/user';
-import { UserRound } from "lucide-react";
 
 export async function Navbar() {
     const user = await getUser()
@@ -12,19 +11,27 @@ export async function Navbar() {
                 <div className="flex items-center space-x-4">
                     <Image src='/icon_primary.jpg' alt='Logo' width={40} height={40} className="rounded-full"/>
                     <Link href={'/'}>
-                        <div className="text-white text-lg font-semibold">Shadow</div>
+                        <div className="text-white text-2xl font-bold">Shadow</div>
                     </Link>
                 </div>
                 <div className="items-center">
-                    {user.is_authenticated ? (
-                        <Link href='/login' className="text-white">
-                            <Image src='/icon_secondary.jpg' alt="User Icon" height={35} width={35} className="rounded-full"/>
+                    <nav className="flex items-center space-x-4">
+                        <Link href="/library" className="text-gray-300 hover:text-white transition">
+                            Library
                         </Link>
-                    ) : (
-                        <Link href="/login">
-                            <UserRound />
-                        </Link>
-                    )}
+                        {!user.is_authenticated ? (
+                            <Link href='/login' className="text-white">
+                                <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                                    Login
+                                </button>
+                            </Link>
+                        ) : (
+                            <Link href="/login">
+                                <Image src='/icon_secondary.jpg' alt="User Icon" height={35} width={35} className="rounded-full"/>
+                            </Link>
+                        )}
+                    </nav>
+                    
                 </div>
             </div>
         </nav>

@@ -63,7 +63,7 @@ export default async function Tracker(props: { nextChapterId: number | null, cha
             <>
               <Form action={handleUnread}>  
               <button className="h-16 w-full cursor-pointer bg-slate-600 hover:bg-slate-700 text-white font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition duration-300 ease-in-out">
-                {is_read ? 'Mark as Unread' : 'Mark as read'}
+                Chapter read, but you can change the marking (tap) 
                 <input type="text" className="hidden" defaultValue={props.chapterId} name='chapterId'/>
                 <input type="text" className="hidden" defaultValue={props.nextChapterId || '0'} name='nextId'/>
               </button>
@@ -71,17 +71,17 @@ export default async function Tracker(props: { nextChapterId: number | null, cha
             </>
           ) : (
             <Form action={handleReadingDone}>  
-              <button className="h-16 w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition duration-300 ease-in-out">
-                {is_read ? 'Mark as Unread' : 'Mark as read'}
+              <button className="h-16 w-full cursor-pointer bg-purple-600 hover:bg-purple-700 text-white duration-300 ease-in-out rounded-md font-bold">
+                Mark as read and Continue to next chapter
                 <input type="text" className="hidden" defaultValue={props.chapterId} name='chapterId'/>
                 <input type="text" className="hidden" defaultValue={props.nextChapterId || 0} name='nextId'/>
               </button>
             </Form>
             )
         ) : (
-          <>
-            Login in to track progress
-          </>
+          <div className="py-2 my-2 bg-slate-950 rounded-md">
+            <p className="text-center text-xl text-purple-400"> Please login to track progress </p>
+          </div>
         )
       }
     </div>
