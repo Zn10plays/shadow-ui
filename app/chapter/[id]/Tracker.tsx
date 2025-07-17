@@ -3,7 +3,7 @@
 import { isChapterReadByUser, markChapterAsRead, markChapterAsUnRead } from "@/prisma/connector";
 import { getUser } from "@/utils/user";
 import Form from "next/form";
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 
 async function handleReadingDone(formData: FormData) {
   'use server';

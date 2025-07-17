@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import Orginizer from "./orginizer"
 import ChaptersnavBar from "./ChaptersNavBar"
 import dynamic from 'next/dynamic'
+import ScrollToTop from "./ScrollToTop"
 
 const DynamicTracker = dynamic(() => import('./Tracker'))
 
@@ -45,6 +46,7 @@ export default async function ChapterDispay({
       )
     }
     <Orginizer bibleInfo={releventTerms} chapter={chapter}/>
+    <ScrollToTop />
     {/* dynamically load tracker */}
     <DynamicTracker nextChapterId={nextChapter} chapterId={chapter.id} />
     <ChaptersnavBar chapter={chapter} nextChapterId={nextChapter} previousChapterId={previousChapter}/>
