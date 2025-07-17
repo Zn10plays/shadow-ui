@@ -11,7 +11,7 @@ interface NovelSummaryProps {
 }
 
 export default function NovelSummary({novel, totalChapters, totalFilled, translatedChapters}: NovelSummaryProps) {
-  return <div className="mx-1 lg:mx-2">
+  return <div className="mx-1 lg:mx-2 text-white">
       <h1 className="text-4xl"> {formatTitle(novel.title)} </h1>
       <span className="text-sm text-slate-400"> {novel.title.includes('|') ? novel.title.split('|')[1] : novel.title} </span>
       <hr className="my-4" />
